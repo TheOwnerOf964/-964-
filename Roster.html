@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vexryn Roster</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Georgia", serif;
+      background-color: #0e0e0e;
+      color: #fff;
+      text-align: center;
+    }
+    header {
+      padding: 40px 20px 20px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      letter-spacing: 4px;
+      margin: 0;
+    }
+    header p {
+      margin-top: 8px;
+      color: #888;
+      font-style: italic;
+    }
+    .back-button {
+      margin-top: 20px;
+      padding: 8px 20px;
+      border: none;
+      background-color: #c93030;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+    .stats {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    .section-title {
+      margin-top: 60px;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      color: #c93030;
+    }
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px 20px;
+    }
+    .card {
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 20px;
+      width: 240px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .card img {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+    .card h2 {
+      margin: 10px 0 5px;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+    .card .role {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>VEXRYN ROSTER</h1>
+    <p>United in Shadows. Untouchable Forever.</p>
+    <button class="back-button">← GO BACK</button>
+    <div class="stats">
+      <div id="active">🧍‍♂️ Active Members: 0</div>
+      <div id="removed">🗑️ Removed Members: 0</div>
+      <div id="total">🧾 Total Ever: 0</div>
+    </div>
+  </header>
+
+  <section class="section-title">CURRENT VEXRYN MEMBERS</section>
+  <div id="members" class="card-grid"></div>
+
+  <section class="section-title">FORMER VEXRYN MEMBERS</section>
+  <div id="former-members" class="card-grid"></div>
+
+  <script>
+    const pastebinURL = ""; 
+
+    function createCard(member) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${member.image}" alt="${member.name}">
+        <h2>${member.name}</h2>
+        <p class="role">${member.role}</p>
+      `;
+      return card;
+    }
+
+    fetch(pastebinURL)
+      .then(res => res.json())
+      .then(data => {
+        const activeContainer = document.getElementById("members");
+        const removedContainer = document.getElementById("former-members");
+
+        if (Array.isArray(data.active)) {
+          data.active.forEach(member => {
+            activeContainer.appendChild(createCard(member));
+          });
+        }
+        if (Array.isArray(data.removed)) {
+          data.removed.forEach(member => {
+            removedContainer.appendChild(createCard(member));
+          });
+        }
+
+        if (typeof data.stats === "object" && data.stats !== null) {
+          if (typeof data.stats.active === "number")
+            document.getElementById("active").textContent = `🧍‍♂️ Active Members: ${data.stats.active}`;
+          if (typeof data.stats.removed === "number")
+            document.getElementById("removed").textContent = `🗑️ Removed Members: ${data.stats.removed}`;
+          if (typeof data.stats.total === "number")
+            document.getElementById("total").textContent = `🧾 Total Ever: ${data.stats.total}`;
+        }
+      })
+      .catch(() => {});
+
+document.querySelector(".back-button").addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+  </script>
+</body>
+</html>
