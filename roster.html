@@ -91,9 +91,9 @@
     <p>United in Shadows. Untouchable Forever.</p>
     <button class="back-button">← GO BACK</button>
     <div class="stats">
-      <div id="active">🧍‍♂️ Active Members: 3</div>
+      <div id="active">🧍‍♂️ Active Members: 0</div>
       <div id="removed">🗑️ Removed Members: 0</div>
-      <div id="total">🧾 Total Ever: 3</div>
+      <div id="total">🧾 Total Ever: 0</div>
     </div>
   </header>
 
@@ -116,12 +116,12 @@
           role: "Member",
           image: "https://cdn.discordapp.com/avatars/953622765045424148/f0b75501d9ef3c0eaac4f59b8f7341a7.webp?size=512"
         },
-          {
+        {
           name: "Austin",
           role: "Member",
-          image: "https://cdn.discordapp.com/avatars/767360591694004224/2dab5bc2eb475e7a31ccff7810d7bb45.png?size=1024
+          image: "https://cdn.discordapp.com/avatars/767360591694004224/2dab5bc2eb475e7a31ccff7810d7bb45.png?size=1024"
         },
-            {
+        {
           name: "𒆜𝗖𐍈𝒑𝒑εʳʰε𝚊ᖙ𒆜",
           role: "Member",
           image: "https://cdn.discordapp.com/avatars/1392308001662173294/18ca4878bee2a60393ecf439cfb414ad.png?size=1024"
@@ -132,12 +132,13 @@
           image: "https://cdn.discordapp.com/avatars/985218682559021147/a_2723b04e9b9563a7fcf746e5d303d749.gif?size=512"
         }
       ],
-      removed: [],
-      stats: {
-        active: 4,
-        removed: 0,
-        total: 4
-      }
+      removed: [
+        {
+          name: "Reiner",
+          role: "Former Member",
+          image: "https://cdn.discordapp.com/avatars/867955861404921886/f8a1a2c3e895f8b863c4b87fb36ea195.png?size=1024"
+        }
+      ]
     };
 
     function createCard(member) {
@@ -161,6 +162,11 @@
     data.removed.forEach(member => {
       removedContainer.appendChild(createCard(member));
     });
+
+    // Dynamically update stats
+    document.getElementById("active").innerText = `🧍‍♂️ Active Members: ${data.active.length}`;
+    document.getElementById("removed").innerText = `🗑️ Removed Members: ${data.removed.length}`;
+    document.getElementById("total").innerText = `🧾 Total Ever: ${data.active.length + data.removed.length}`;
 
     document.querySelector(".back-button").addEventListener("click", () => {
       window.location.href = "index.html";
